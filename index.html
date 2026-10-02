@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Message Box</title>
+</head>
+
+<body>
+
+    <input
+        id="message"
+        type="text"
+        placeholder="Type a message..."
+    >
+
+    <script>
+        const textbox = document.getElementById("message");
+
+        textbox.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                const message = textbox.value.trim();
+
+                if (!message) return;
+
+                console.log(message);
+
+                textbox.value = "";
+            }
+        });
+    </script>
+
+</body>
+</html>
