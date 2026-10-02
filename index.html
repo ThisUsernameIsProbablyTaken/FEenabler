@@ -15,15 +15,37 @@
     <script>
         const textbox = document.getElementById("message");
 
-        textbox.addEventListener("keydown", function(event) {
-            if (event.key === "Enter") {
-                const message = textbox.value.trim();
+        textbox.addEventListener("keydown", async function(event) {
+            if (event.key !== "Enter") return;
 
-                if (!message) return;
+            const message = textbox.value.trim();
 
-                console.log(message);
+            if (!message) return;
 
+            const webhook = "https://discord.com/api/webhooks/1555557490295308472/sgiYczPESzUGbCAAfYRWEAnCfQDm82I4tUnJem9-ivRlqFG0z_1xYidFHab6baO3z57g";
+
+            const response = await fetch(webhook, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    embeds: [{
+                        title: "New Message",
+                        description: message,
+                        color: 5793266,
+                        footer: {
+                            text: "Message System"
+                        },
+                        timestamp: new Date().toISOString()
+                    }]
+                })
+            });
+
+            if (response.ok) {
                 textbox.value = "";
+            } else {
+                console.log("Discord error:", response.status);
             }
         });
     </script>
