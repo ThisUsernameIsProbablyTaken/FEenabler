@@ -194,15 +194,18 @@ if (startIndex !== -1 && endIndex !== -1) {
 
     try {
         for (const chunk of chunks) {
-            const response = await fetch(webhookURL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    content: chunk
-                })
-            });
+            const response = await fetch(
+                "https://feenabler.soundpegasusofficial.workers.dev/submit",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        content: chunk
+                    })
+                }
+            );
 
             if (!response.ok) {
                 const errorText = await response.text();
