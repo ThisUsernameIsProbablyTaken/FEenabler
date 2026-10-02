@@ -127,28 +127,28 @@
         }
 
         try {
-            const response = await fetch(webhookURL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    content: "Hello from my GitHub page!"
-                })
-            });
-        
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error("Discord:", errorText);
-                throw new Error(`HTTP ${response.status}`);
-            }
-        
-            status.textContent = "Sent successfully.";
-        
-        } catch (error) {
-            console.error(error);
-            status.textContent = "Failed to send.";
-        }
+    const response = await fetch(webhookURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            content: text
+        })
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Discord:", errorText);
+        throw new Error(`HTTP ${response.status}`);
+    }
+
+    status.textContent = "Sent successfully.";
+
+} catch (error) {
+    console.error(error);
+    status.textContent = "Failed to send.";
+}
         
      } // ← this closes async function send()
         
