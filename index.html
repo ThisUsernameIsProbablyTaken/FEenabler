@@ -101,18 +101,40 @@
         const submit = document.getElementById("submit");
         const status = document.getElementById("status");
 
-        function send() {
+                async function send() {
             const text = message.value.trim();
-
+        
             if (!text) {
                 status.textContent = "Nothing entered.";
                 return;
             }
-
-            console.log(text);
-
-            status.textContent = "Received.";
-            message.value = "";
+        
+            status.textContent = "Sending...";
+        
+            const webhook = "YOUR_DISCORD_WEBHOOK_URL";
+        
+            try {
+                const response = await fetch(webhook, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        content: "Test message from my website."
+                    })
+                });
+        
+                if (!response.ok) {
+                    throw new Error("HTTP " + response.status);
+                }
+        
+                status.textContent = "Sent!";
+                message.value = "";
+        
+            } catch (error) {
+                console.error(error);
+                status.textContent = "Failed to send.";
+            }
         }
 
         submit.addEventListener("click", send);
