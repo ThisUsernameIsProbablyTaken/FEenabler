@@ -224,29 +224,48 @@ async function generateKey() {
     status.textContent = "Generating key...";
 
     try {
-        const response = await fetch(
-            "https://feenabler.soundpegasusofficial.workers.dev/generate"
-        );
+    const response = await fetch(
+        "https://feenabler.soundpegasusofficial.workers.dev/generate"
+    );
 
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+
+    // Already has a key / still on cooldown
+    if (!response.ok) {
+        if (data.expires_at) {
+            const remaining =
+                data.expires_at - Math.floor(Date.now() / 1000);
+
+            const hours = Math.ceil(remaining / 3600);
+
+            status.textContent =
+                `You already have a key. You can generate a new one in approximately ${hours} hour(s).`;
+
+            if (data.key) {
+                generatedKey.textContent = data.key;
+                keyBox.style.display = "block";
+            }
+
+            return;
         }
 
-        const data = await response.json();
-
-        if (!data.success || !data.key) {
-            throw new Error("Invalid server response");
-        }
-
-        generatedKey.textContent = data.key;
-        keyBox.style.display = "block";
-
-        status.textContent = "Key generated successfully.";
-
-    } catch (error) {
-        console.error(error);
-        status.textContent = "Failed to generate key.";
+        status.textContent = data.error || "Failed to generate key.";
+        return;
     }
+
+    // New key successfully generated
+    if (!data.success || !data.key) {
+        throw new Error("Invalid server response");
+    }
+
+    generatedKey.textContent = data.key;
+    keyBox.style.display = "block";
+
+    status.textContent = "Key generated successfully.";
+
+} catch (error) {
+    console.error(error);
+    status.textContent = "Failed to generate key.";
 }
 
 generateKeyButton.addEventListener("click", generateKey);
