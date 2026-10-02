@@ -267,7 +267,8 @@ async function generateKey() {
     console.error(error);
     status.textContent = "Failed to generate key.";
 }
-
+}
+            
 generateKeyButton.addEventListener("click", generateKey);
 
 copyKeyButton.addEventListener("click", async () => {
