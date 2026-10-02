@@ -249,6 +249,8 @@ async function generateKey() {
     }
 }
 
+generateKeyButton.addEventListener("click", generateKey);
+
 copyKeyButton.addEventListener("click", async () => {
     try {
         await navigator.clipboard.writeText(generatedKey.textContent);
