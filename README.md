@@ -22,4 +22,4 @@ You have probably came here to enable fe. Well heres the tutorial on how you set
 <img width="787" height="900" alt="image" src="https://github.com/user-attachments/assets/ede44d77-e4ca-4172-907a-e196285accd3" />
 
 ## 6. Then paste that inside the prompt box here. 
-You will then be given a key in which you can use to enable fe.
+You will then be given a key in which you can use to enable fe by pasting it in the textbox.
